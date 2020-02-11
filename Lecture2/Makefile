@@ -1,6 +1,6 @@
 all:                                                                            
 	#ocamlbuild -use-ocamlfind -package qcheck simpleQcheck.byte                   
-	ocamlbuild exercise.byte                                                                            
+	ocamlbuild -use-ocamlfind -package qcheck exercise.byte                                                                            
 
 clean:                                                                          
 	ocamlbuild -clean  
