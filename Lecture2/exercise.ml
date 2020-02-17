@@ -25,17 +25,20 @@ let fst n = match n with
 let snd n = match n with
     (x,y) -> y
 
-let sum_test = Test.make ~name:"Sum Test" ~count:100000 (pair (list int) (list int)) (fun (xs,ys) -> sum (xs@ys) = sum xs + sum ys)
+let sum_test = Test.make ~name:"Sum Test" ~count:10000 (pair (list int) (list int))
+    (fun (xs,ys) -> sum (xs@ys) = sum xs + sum ys)
 
-let rec merge l1 l2 = match l1, l2 with
-  |  [],list -> l2
-  | list,[] -> l1
+let _ = QCheck_runner.run_tests ~verbose:true [sum_test]
+
+let rec merge_sort l1 l2 = match l1, l2 with
+  |  [],_ -> l2
+  | _,[] -> l1
   | elem1::elems1, elem2::elems2 -> if elem1 <= elem2 
-    then elem1 :: merge elems1 (elem2::elems2)
-    else elem2 :: merge (elem1::elems1) elems2 
+    then elem1 :: merge_sort elems1 l2
+    else elem2 :: merge_sort l1 elems2 
 
 let merge_test = Test.make ~name:"Merge Test" ~count:1000 (pair (list int) (list int)) (
-    fun (xs,ys) -> merge (List.sort compare xs) (List.sort compare ys) = List.sort compare (xs@ys) ) 
+    fun (xs,ys) -> merge_sort (List.sort compare xs) (List.sort compare ys) = List.sort compare (xs@ys) ) 
 
 let _ = QCheck_runner.run_tests ~verbose:true [merge_test]
 
