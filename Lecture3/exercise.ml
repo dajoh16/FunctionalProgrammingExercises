@@ -1,4 +1,4 @@
-
+open QCheck
 (* a datatype of arithmetic expressions *)
 type aexp =
   | X
@@ -85,3 +85,15 @@ let rec run xreg inst stack = match inst with
           | e1::stackElems -> (match stackElems with
               | [] -> raise Cannot_multiply_stack_with_1_entry
               | e2::remainder -> ([(e1 * e2)] @ remainder)))) 
+
+
+let integerGen = Gen.frequency
+    [ (30,int.gen) ;
+      (30, small_signed_int.gen) ;
+      (5,Gen.return (-1)) ;
+      (5,Gen.return (0)) ;
+      (5,Gen.return 1) ;
+      (5,Gen.return (Int64.to_int (Int64.max_int))) ;
+      (5,Gen.return (Int64.to_int (Int64.min_int))) ]
+
+
