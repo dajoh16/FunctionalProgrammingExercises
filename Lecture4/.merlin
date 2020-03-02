@@ -1,1 +1,3 @@
 PKG qcheck
+S .
+S ./
