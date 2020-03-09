@@ -1,0 +1,3 @@
+PKG qcheck qcstm ppx_deriving.show
+S .
+S ./
